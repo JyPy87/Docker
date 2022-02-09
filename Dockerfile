@@ -14,12 +14,19 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 #Paquet supplementaire:
 RUN apt-get update && apt-get install -y zip unzip vim
 
+# Extensions MySQL pour PHP/WordPress
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+
+# Imagick pour WordPress (https://webapplicationconsultant.com/docker/how-to-install-imagick-in-php-docker/)
+RUN apt-get install -y libmagickwand-dev --no-install-recommends && rm -rf /var/lib/apt/lists/*
+RUN printf "\n" | pecl install imagick
+RUN docker-php-ext-enable imagick
+
+# Virtualhost
+COPY Docker-vhost.conf /etc/apache2/sites-enabled/docker-vhost-wp.conf
 
 #Dossier de travail pour les commandes suivantes
-WORKDIR /var/www/html
-
-#Installation initiale de modules apache et php
-RUN docker-php-ext-install mysqli
+WORKDIR /var/www/html/app
 
 #Redémarrage d'Apache pour prendre en compte ces modifications
 RUN apachectl restart
