@@ -6,7 +6,7 @@ services:
     container_name: projet-php-apache
     ports:
       # local:container
-      - 1337:80
+      - 8000:80
     environment: 
       - APACHE_DOCUMENT_ROOT=/var/www/html
       - COMPOSER_ALLOW_SUPERUSER=1
@@ -44,7 +44,7 @@ services:
       # Volume de la base de données
       - ./db-data:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: wordpress
-      # MYSQL_ROOT_PASSWORD: XXXXXXXXX
+      MYSQL_DATABASE: project
+      #MYSQL_ROOT_PASSWORD: XXXXXXX
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       # MARIADB_RANDOM_ROOT_PASSWORD: "yes"
